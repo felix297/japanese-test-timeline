@@ -257,7 +257,7 @@ function renderTimeline(data) {
 
     const date = document.createElement('div');
     date.className = 'timeline-date';
-    date.textContent = exam.date;
+    date.textContent = exam.date + (status.class === 'status-ongoing' ? '（报名中）': '');
 
     const details = document.createElement('div');
     details.className = 'timeline-details';
