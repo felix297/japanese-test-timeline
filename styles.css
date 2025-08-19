@@ -1,0 +1,111 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    font-weight: 750;
+}
+
+/* 时间轴容器 */
+.timeline {
+    flex-direction: column;
+    border-top: none;
+    border-left: 3px solid #34495e;
+    gap: 30px;
+    padding: 10px;
+    overflow-x: hidden;
+    margin-left: 30px;
+}
+
+#p1 {
+    margin-top: 0px;
+    margin-left: 30px;
+    font-weight: 750;
+    color: #2c3e50;
+    font-size: 30px;
+}
+
+/* 时间轴节点 */
+.timeline-item {
+    position: relative;
+    flex-shrink: 0;
+    text-align: left;
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.timeline-date {
+    margin-top: 10px;
+    font-weight: 750;
+    color: #2c3e50;
+    font-size: 20px;
+}
+
+.timeline-title {
+    font-size: 14px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* 折叠详情 */
+.timeline-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    background: #fff;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 220px;
+    padding: 0 14px;
+}
+
+.timeline-item.expanded .timeline-details {
+    max-height: 500px;
+    /* 足够容纳内容 */
+    padding: 14px;
+}
+
+.timeline-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.timeline-details ol {
+    margin: 4px 0 8px 20px;
+    font-size: 14px;
+    padding: 0;
+}
+
+.status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.status-ongoing {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-ended {
+    background-color: #f8d7da;
+    color: #721c24
+}
+
+.status-unpublished {
+    background-color: #e2e3e5;
+    color: #383d41;
+}

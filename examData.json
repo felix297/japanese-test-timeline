@@ -1,0 +1,47 @@
+[
+  {
+    "name": "JTEST",
+    "link": "http://www.j-test.com/",
+    "date": "9.2",
+    "signUpStart": "07-22",
+    "signUpEnd": "08-07",
+    "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
+    "requirement": "F"
+  },
+  {
+    "name": "NAT-TEST",
+    "link": "http://www.nattest-china.com/",
+    "date": "10.26",
+    "signUpStart": "",
+    "signUpEnd": "09-26",
+    "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
+    "requirement": "N5"
+  },
+  {
+    "name": "JTEST",
+    "link": "http://www.j-test.com/",
+    "date": "11.2",
+    "signUpStart": null,
+    "signUpEnd": null,
+    "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
+    "requirement": "F"
+  },
+  {
+    "name": "NAT-TEST",
+    "link": "http://www.nattest-china.com/",
+    "date": "12.14",
+    "signUpStart": "",
+    "signUpEnd": "11-14",
+    "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
+    "requirement": "N5"
+  },
+  {
+    "name": "JLPT",
+    "link": "https://jlpt.neea.cn/index.do",
+    "date": "12.7",
+    "signUpStart": "09-08",
+    "signUpEnd": "09-16",
+    "location": "<ol><li>北京：北京外国语大学、北京语言大学、北京师范大学、北京第二外国语学院、北京大学</li><li>陕西：西安交通大学、西安外国语大学（长安校区）、西北工业大学</li></ol>",
+    "requirement": "N5"
+  }
+]
