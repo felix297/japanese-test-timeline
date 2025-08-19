@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>2025 日语考试</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    font-weight: 600;
+  }
+
+  /* 时间轴容器 */
+  .timeline {
+    flex-direction: column;
+    border-top: none;
+    border-left: 3px solid #34495e;
+    gap: 30px;
+    padding: 10px;
+    overflow-x: hidden;
+	margin-left: 30px;
+  }
+
+  /* 时间轴节点 */
+  .timeline-item {
+    position: relative;
+    flex-shrink: 0;
+    text-align: left;
+    cursor: pointer;
+	margin-left: 30px;
+  }
+
+  .timeline-title {
+    margin-top: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 16px;
+  }
+
+  .timeline-date {
+    font-size: 14px;
+    color: #666;
+    margin-top: 4px;
+  }
+
+  /* 折叠详情 */
+  .timeline-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    background: #fff;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: left;
+    width: 220px;
+    padding: 0 14px;
+  }
+
+  .timeline-item.expanded .timeline-details {
+    max-height: 500px; /* 足够容纳内容 */
+    padding: 14px;
+  }
+
+  .timeline-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .timeline-details ol {
+    margin: 4px 0 8px 20px;
+	font-size: 14px;
+    padding: 0;
+  }
+
+  .status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+  }
+  .status-ongoing { background-color: #d4edda; color: #155724; }
+  .status-ended { background-color: #f8d7da; color: #721c24; }
+  .status-unpublished { background-color: #e2e3e5; color: #383d41; }
+
+  /* 响应式：小屏改纵向 */
+  @media (max-width: 768px) {
+    .timeline {
+      flex-direction: column;
+      border-top: none;
+      border-left: 3px solid #34495e;
+      gap: 30px;
+      padding: 10px;
+      overflow-x: hidden;
+    }
+
+    .timeline-item::before {
+      top: 10px;
+      left: -8px;
+      transform: none;
+    }
+
+    .timeline-title {
+      margin-top: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<h1>2025 日语考试</h1>
+
+<div class="timeline" id="timeline"></div>
+
+<script>
+const examData = [
+  {
+    name: 'JTEST',
+    link: 'http://www.j-test.com/',
+    date: '9.2',
+    signUpStart: '07-22',
+    signUpEnd: '08-07',
+    location: `
+      <ol>
+        <li>北京：北京语言大学</li>
+        <li>陕西：西安交通大学</li>
+      </ol>
+    `,
+    requirement: 'F'
+  },
+  {
+    name: 'NAT-TEST',
+    link: 'http://www.nattest-china.com/',
+    date: '10.26',
+    signUpStart: '',
+    signUpEnd: '09-26',
+    location: `
+      <ol>
+        <li>北京：北京语言大学</li>
+        <li>陕西：西安交通大学</li>
+      </ol>
+    `,
+    requirement: 'N5'
+  },
+  {
+    name: 'JTEST',
+    link: 'http://www.j-test.com/',
+    date: '11.2',
+    signUpStart: null,
+    signUpEnd: null,
+    location: `
+      <ol>
+        <li>北京：北京语言大学</li>
+        <li>陕西：西安交通大学</li>
+      </ol>
+    `,
+    requirement: 'F'
+  },
+  {
+    name: 'NAT-TEST',
+    link: 'http://www.nattest-china.com/',
+    date: '12.14',
+    signUpStart: '',
+    signUpEnd: '11-14',
+    location: `
+      <ol>
+        <li>北京：北京语言大学</li>
+        <li>陕西：西安交通大学</li>
+      </ol>
+    `,
+    requirement: 'N5'
+  },
+  {
+    name: 'JLPT',
+    link: 'https://jlpt.neea.cn/index.do',
+    date: '12月',
+    signUpStart: null,
+    signUpEnd: null,
+    location: `
+      <ol>
+        <li>北京：北京外国语大学、北京语言大学、北京师范大学、北京第二外国语学院、北京大学</li>
+        <li>陕西：西安交通大学、西安外国语大学（长安校区）、西北工业大学</li>
+      </ol>
+    `,
+    requirement: 'N5'
+  }
+];
+
+function parseDate(str, refYear) {
+  if (!str) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return new Date(str);
+  if (/^\d{2}-\d{2}$/.test(str)) {
+    let [m, d] = str.split('-').map(Number);
+    let y = refYear || new Date().getFullYear();
+    const date = new Date(y, m - 1, d);
+    if (m < 3 && (new Date().getMonth() > 9)) date.setFullYear(y + 1);
+    return date;
+  }
+  return null;
+}
+
+function toEndOfDay(date) {
+  if (!date) return null;
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+}
+
+function formatSignUp(start, end) {
+  if (start && end) return `${start.getMonth() + 1}.${start.getDate()} ~ ${end.getMonth() + 1}.${end.getDate()}`;
+  if (end) return `截至 ${end.getMonth() + 1}.${end.getDate()}`;
+  if (start) return `从 ${start.getMonth() + 1}.${start.getDate()} 开始`;
+  return '未公布';
+}
+
+function getStatus(start, end) {
+  const now = new Date();
+  if (!start && !end) return { text: '未公布', class: 'status-unpublished' };
+  if (end && toEndOfDay(end) < now) return { text: '已结束', class: 'status-ended' };
+  if (start && start > now) return { text: '未开始', class: 'status-unpublished' };
+  return { text: '报名中', class: 'status-ongoing' };
+}
+
+// 按考试时间排序
+const sortedData = [...examData].sort((a, b) => {
+  const dateA = a.date.replace('月', '.');
+  const dateB = b.date.replace('月', '.');
+  return dateA.localeCompare(dateB);
+});
+
+function renderTimeline(data) {
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+
+  data.forEach(exam => {
+    const startDate = parseDate(exam.signUpStart);
+    const endDate = parseDate(exam.signUpEnd);
+    const signUpText = formatSignUp(startDate, endDate);
+    const status = getStatus(startDate, endDate);
+
+    const item = document.createElement('div');
+    item.className = 'timeline-item';
+
+    const title = document.createElement('div');
+    title.className = 'timeline-title';
+    title.textContent = exam.name;
+
+    const date = document.createElement('div');
+    date.className = 'timeline-date';
+    date.textContent = exam.date;
+
+    const details = document.createElement('div');
+    details.className = 'timeline-details';
+    details.innerHTML = `
+      <p><strong>报名时间：</strong>${signUpText}</p>
+      <p><strong>考试地点：</strong>${exam.location}</p>
+      <p><strong>TCC 要求：</strong>${exam.requirement}</p>
+      <p><strong>报名状态：</strong><span class="status ${status.class}">${status.text}</span></p>
+      <p><a href="${exam.link}" target="_blank" rel="noopener noreferrer">查看官网</a></p>
+    `;
+
+    item.appendChild(title);
+    item.appendChild(date);
+    item.appendChild(details);
+
+    // 点击展开折叠
+    item.addEventListener('click', () => {
+      item.classList.toggle('expanded');
+    });
+
+    timeline.appendChild(item);
+  });
+}
+
+renderTimeline(sortedData);
+</script>
+</body>
+</html>
