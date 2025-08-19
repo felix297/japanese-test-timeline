@@ -12,17 +12,13 @@ async function loadExamData() {
 
 function renderTimeline(data) {
     const timeline = document.getElementById('timeline');
-    timeline.innerHTML = "<p id=p1>2025 日语考试</p>";
+    timeline.innerHTML = "";
 
     data.forEach(exam => {
         const startDate = parseDate(exam.signUpStart);
         const endDate = parseDate(exam.signUpEnd);
         const signUpText = formatSignUp(startDate, endDate);
         const status = getStatus(startDate, endDate);
-
-        if (status.class === 'status-ended') {
-            return;
-        }
 
         const item = document.createElement('div');
         item.className = 'timeline-item';
@@ -33,7 +29,14 @@ function renderTimeline(data) {
 
         const title = document.createElement('div');
         title.className = 'timeline-title';
-        title.textContent = exam.name + (status.class === 'status-ongoing' ? '（报名中）' : '');
+
+        title.textContent = exam.name;
+        if (status.class === 'status-ongoing') {
+            title.textContent = exam.name + '（报名中）';
+        }
+        if (status.class === 'status-ended') {
+            title.textContent = exam.name + '（已结束）';
+        }
 
         const details = document.createElement('div');
         details.className = 'timeline-details';
@@ -62,10 +65,11 @@ function renderTimeline(data) {
 loadExamData().then(examData => {
     // 按考试时间排序
     const sortedData = [...examData].sort((a, b) => {
-        const dateA = a.date.replace('月', '.');
-        const dateB = b.date.replace('月', '.');
-        return dateA.localeCompare(dateB);
+        const normalizeDate = str => str.replace('月', '-').replace('日', '');
+        const dateA = parseDate(normalizeDate(a.date)); // 从 a.date 可看出，使用的 data 字段进行排序
+        const dateB = parseDate(normalizeDate(b.date));
+        return dateA - dateB;
     });
-
+    
     renderTimeline(sortedData);
 });
