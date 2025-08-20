@@ -15,17 +15,23 @@ function renderTimeline(data) {
     timeline.innerHTML = "";
 
     data.forEach(exam => {
+        const currDate = new Date();
         const startDate = parseDate(exam.signUpStart);
         const endDate = parseDate(exam.signUpEnd);
         const signUpText = formatSignUp(startDate, endDate);
         const status = getStatus(startDate, endDate);
+        const contestDate = parseDate(exam.date);
 
         const item = document.createElement('div');
         item.className = 'timeline-item';
 
         const date = document.createElement('div');
         date.className = 'timeline-date';
-        date.textContent = exam.date;
+        if (contestDate.getFullYear() === currDate.getFullYear()) {
+            date.textContent =`${contestDate.getMonth() + 1}.${contestDate.getDate()}`;
+        } else {
+            date.textContent =`${contestDate.getFullYear()}.${contestDate.getMonth() + 1}.${contestDate.getDate()}`;
+        }
 
         const title = document.createElement('div');
         title.className = 'timeline-title';
@@ -64,11 +70,10 @@ function renderTimeline(data) {
 // 关键：在加载数据后再排序和渲染
 loadExamData().then(examData => {
     // 按考试时间排序
-    const sortedData = [...examData].sort((a, b) => {
-        const normalizeDate = str => str.replace('月', '-').replace('日', '');
-        const dateA = parseDate(normalizeDate(a.date)); // 从 a.date 可看出，使用的 data 字段进行排序
-        const dateB = parseDate(normalizeDate(b.date));
-        return dateA - dateB;
+    const sortedData = [...examData].sort((data1, data2) => {
+        const date1 = parseDate(data1.date); // 从 data1.date 可看出，使用的 date 字段进行排序
+        const date2 = parseDate(data2.date);
+        return date1 - date2;
     });
     
     renderTimeline(sortedData);

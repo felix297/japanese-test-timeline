@@ -2,25 +2,26 @@
   {
     "name": "JTEST",
     "link": "http://www.j-test.com/",
-    "date": "9.2",
-    "signUpStart": "07-22",
-    "signUpEnd": "08-07",
+    "date": "20250907000000",
+    "signUpStart": "20250722000000",
+    "signUpEnd": "20250807235959",
     "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
-    "requirement": "F"
+    "requirement": "F",
+    "note": "准考证下载日期：2025年8月29日～2025年9月5日"
   },
   {
     "name": "NAT-TEST",
     "link": "http://www.nattest-china.com/",
-    "date": "10.26",
+    "date": "20251026000000",
     "signUpStart": "",
-    "signUpEnd": "09-26",
+    "signUpEnd": "20250926235959",
     "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
     "requirement": "N5"
   },
   {
     "name": "JTEST",
     "link": "http://www.j-test.com/",
-    "date": "11.2",
+    "date": "20251102000000",
     "signUpStart": null,
     "signUpEnd": null,
     "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
@@ -29,18 +30,18 @@
   {
     "name": "NAT-TEST",
     "link": "http://www.nattest-china.com/",
-    "date": "12.14",
+    "date": "20251214000000",
     "signUpStart": "",
-    "signUpEnd": "11-14",
+    "signUpEnd": "20251114235959",
     "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
     "requirement": "N5"
   },
   {
     "name": "JLPT",
     "link": "https://jlpt.neea.cn/index.do",
-    "date": "12.7",
-    "signUpStart": "09-08",
-    "signUpEnd": "09-16",
+    "date": "20251207000000",
+    "signUpStart": "20250908070000",
+    "signUpEnd": "20250916140000",
     "location": "<ol><li>北京：北京外国语大学、北京语言大学、北京师范大学、北京第二外国语学院、北京大学</li><li>陕西：西安交通大学、西安外国语大学（长安校区）、西北工业大学</li></ol>",
     "requirement": "N5"
   }
