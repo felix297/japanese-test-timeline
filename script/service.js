@@ -56,13 +56,9 @@ function getTitleEle(exam) {
     const status = getStatus(exam);
     const title = document.createElement('div');
     title.className = 'timeline-title';
-
     title.textContent = exam.name;
 
-    if (status.class === 'status-signup-ongoing') {
-        title.textContent = exam.name + '（报名中）';
-    }
-    if (status.class === 'status-test-waiting') {
+    if (status.class === 'status-signup-ongoing' || status.class === 'status-test-waiting') {
         title.textContent = exam.name + '（'+ status.text +'）';
     }
     console.log(status.class);
