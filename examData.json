@@ -16,7 +16,8 @@
     "signUpStart": "",
     "signUpEnd": "20250926235959",
     "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
-    "requirement": "N5"
+    "requirement": "N5",
+    "note": ""
   },
   {
     "name": "JTEST",
@@ -25,7 +26,8 @@
     "signUpStart": null,
     "signUpEnd": null,
     "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
-    "requirement": "F"
+    "requirement": "F",
+    "note": ""
   },
   {
     "name": "NAT-TEST",
@@ -34,7 +36,8 @@
     "signUpStart": "",
     "signUpEnd": "20251114235959",
     "location": "<ol><li>北京：北京语言大学</li><li>陕西：西安交通大学</li></ol>",
-    "requirement": "N5"
+    "requirement": "N5",
+    "note": ""
   },
   {
     "name": "JLPT",
@@ -43,6 +46,7 @@
     "signUpStart": "20250908070000",
     "signUpEnd": "20250916140000",
     "location": "<ol><li>北京：北京外国语大学、北京语言大学、北京师范大学、北京第二外国语学院、北京大学</li><li>陕西：西安交通大学、西安外国语大学（长安校区）、西北工业大学</li></ol>",
-    "requirement": "N5"
+    "requirement": "N5",
+    "note": ""
   }
 ]

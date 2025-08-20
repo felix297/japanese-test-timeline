@@ -1,38 +1,84 @@
+import { parseDate, formatSignUp, getStatus } from './util.js';
+
+export function renderItem(exam) {
+    const item = document.createElement('div');
+    item.className = 'timeline-item';
+
+    const date = getDateEle(exam);
+    const title = getTitleEle(exam);
+    const details = getDetailsEle(exam);
+
+    item.appendChild(date);
+    item.appendChild(title);
+    item.appendChild(details);
+
+    // 点击展开折叠
+    item.addEventListener('click', () => {
+        item.classList.toggle('expanded');
+    });
+    return item;
+}
+
+function getDateEle(exam) {
+    const currDate = new Date();
+    const contestDate = parseDate(exam.date);
+    const date = document.createElement('div');
+    date.className = 'timeline-date';
+    if (!contestDate) {
+        date.textContent = '日期未公布';
+        return date;
+    }
+    if (contestDate.getFullYear() === currDate.getFullYear()) {
+        date.textContent = `${contestDate.getMonth() + 1}.${contestDate.getDate()}`;
+    } else {
+        date.textContent = `${contestDate.getFullYear()}.${contestDate.getMonth() + 1}.${contestDate.getDate()}`;
+    }
+    return date;
+}
+
+function getDetailsEle(exam) {
+    const signUpText = formatSignUp(exam.signUpStart, exam.signUpEnd);
+    const status = getStatus(exam.signUpStart, exam.signUpEnd);
+    const details = document.createElement('div');
+    details.className = 'timeline-details';
+    details.innerHTML = `
+      <p><strong>报名时间：</strong>${signUpText}</p>
+      <p><strong>考试地点：</strong>${exam.location}</p>
+      <p><strong>TCC 要求：</strong>${exam.requirement}</p>
+      <p><strong>报名状态：</strong><span class="status ${status.class}">${status.text}</span></p>
+      <p><a href="${exam.link}" target="_blank" rel="noopener noreferrer">查看官网</a></p>
+    `;
+    return details;
+}
+
+function getTitleEle(exam) {
+    const status = getStatus(exam.signUpStart, exam.signUpEnd);
+    const title = document.createElement('div');
+    title.className = 'timeline-title';
+
+    title.textContent = exam.name;
+
+    if (status.class === 'status-ongoing') {
+        title.textContent = exam.name + '（报名中）';
+    }
+    if (status.class === 'status-ended') {
+        title.textContent = exam.name + '（已结束）';
+    }
+    return title;
+}
+
 /**
- * 将 yyyyMMddhhmmsss 格式时间字符串转变为 Date 对象
- * @param {*} str 符合 yyyyMMddhhmmsss 格式的时间字符串
- * @returns 转换后的 Date 对象
+ * 将数据行按 date 字段排序
+ * @param {*} data 待排序的数据
+ * @returns 排序后的数据行
  */
-export function parseDate(str) {
-    if (!str) return null; // 排除空字符串
-    if (!/^\d{14}$/.test(str)) return null; // 必须是14位数字
-
-    const year = parseInt(str.substr(0, 4), 10);
-    const month = parseInt(str.substr(4, 2), 10) - 1; // 月份从0开始
-    const day = parseInt(str.substr(6, 2), 10);
-    const hour = parseInt(str.substr(8, 2), 10);
-    const minute = parseInt(str.substr(10, 2), 10);
-    const second = parseInt(str.substr(12, 2), 10);
-
-    return new Date(year, month, day, hour, minute, second);
-}
-
-function toEndOfDay(date) {
-    if (!date) return null;
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
-}
-
-export function formatSignUp(start, end) {
-    if (start && end) return `${start.getMonth() + 1}.${start.getDate()} ~ ${end.getMonth() + 1}.${end.getDate()}`;
-    if (end) return `截至 ${end.getMonth() + 1}.${end.getDate()}`;
-    if (start) return `从 ${start.getMonth() + 1}.${start.getDate()} 开始`;
-    return '未公布';
-}
-
-export function getStatus(start, end) {
-    const now = new Date();
-    if (!start && !end) return { text: '未公布', class: 'status-unpublished' };
-    if (end && toEndOfDay(end) < now) return { text: '已结束', class: 'status-ended' };
-    if (start && start > now) return { text: '未开始', class: 'status-unpublished' };
-    return { text: '报名中', class: 'status-ongoing' };
+export function sortDataByDate(data) {
+    return [...data].sort((a, b) => {
+        const date1 = parseDate(a.date);
+        const date2 = parseDate(b.date);
+        if (!date1 && !date2) return 0;
+        if (!date1) return 1;
+        if (!date2) return -1;
+        return date1 - date2;
+    });
 }
