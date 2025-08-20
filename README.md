@@ -14,16 +14,15 @@
 |note|备注||
 
 ## TODO
-- [ ] 统一数据文件中的时间格式，调整对应的时间处理逻辑
-- [ ] 时间字段修改
+- [x] 统一数据文件中的时间格式，调整对应的时间处理逻辑
+- [x] 时间字段修改
 
     ```json
     [
         {
             "name": "test-name",
             "link": "official website of the test",
-            "contestTimeStart": "yyyyMMddhhmmsss",
-            "contestTimeEnd": "yyyyMMddhhmmsss",
+            "date": "yyyyMMddhhmmsss",
             "signUpStart": "yyyyMMddhhmmsss",
             "signUpEnd": "yyyyMMddhhmmsss",
             "location": "location to get into the contest",
@@ -33,3 +32,12 @@
         ...
     ]
     ```
+- [x] 考试状态细分：等待报名、报名中、等待考试、考试结束
+    |状态|判定条件|
+    |---|--------|
+    |等待报名|`currDate < signUpStart`|
+    |报名中|`signUpStart < currDate < signUpEnd`|
+    |等待考试|`signUpEnd < currDate < date`|
+    |考试结束|`date < currDate`|
+
+- [x] 显示备注信息

@@ -32,12 +32,24 @@ export function formatSignUp(startStr, endStr) {
  * @param {*} endStr 
  * @returns 
  */
-export function getStatus(startStr, endStr) {
-    const start = parseDate(startStr);
-    const end = parseDate(endStr);
+export function getStatus(exam) {
+    const start = parseDate(exam.signUpStart);
+    const end = parseDate(exam.signUpEnd);
+    const date = parseDate(exam.date);
     const now = new Date();
-    if (!start && !end) return { text: '未公布', class: 'status-unpublished' };
-    if (end && end < now) return { text: '已结束', class: 'status-ended' };
-    if (start && start > now) return { text: '未开始', class: 'status-unpublished' };
-    return { text: '报名中', class: 'status-ongoing' };
+
+    if (!start && !end) {
+        return { text: '未公布', class: 'status-unpublished' };
+    }
+    if (start && now < start) {
+        return { text: '等待报名', class: 'status-signup-waiting' };
+    }
+    if (/* 报名开始和结束的时间都有*/ (start && end && start < now && now < end) ||
+    /* 只有报名截止时间的情况 */(end && !start && now < end)) {
+        return { text: '报名中', class: 'status-signup-ongoing' };
+    }
+    if (end && end < now && now < date) {
+        return { text: '等待考试', class: 'status-test-waiting' };
+    }
+    return { text: '考试结束', class: 'status-test-finished' };
 }

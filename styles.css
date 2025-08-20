@@ -88,17 +88,17 @@ h1 {
     font-size: 12px;
 }
 
-.status-ongoing {
+.status-unpublished, .status-signup-waiting {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+.status-signup-ongoing, .status-test-waiting {
     background-color: #d4edda;
     color: #155724;
 }
 
-.status-ended {
+.status-test-finished {
     background-color: #f8d7da;
     color: #721c24
-}
-
-.status-unpublished {
-    background-color: #e2e3e5;
-    color: #383d41;
 }

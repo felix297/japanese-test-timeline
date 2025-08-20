@@ -38,7 +38,7 @@ function getDateEle(exam) {
 
 function getDetailsEle(exam) {
     const signUpText = formatSignUp(exam.signUpStart, exam.signUpEnd);
-    const status = getStatus(exam.signUpStart, exam.signUpEnd);
+    const status = getStatus(exam);
     const details = document.createElement('div');
     details.className = 'timeline-details';
     details.innerHTML = `
@@ -46,24 +46,26 @@ function getDetailsEle(exam) {
       <p><strong>考试地点：</strong>${exam.location}</p>
       <p><strong>TCC 要求：</strong>${exam.requirement}</p>
       <p><strong>报名状态：</strong><span class="status ${status.class}">${status.text}</span></p>
+      <p><strong>备注：</strong>${exam.note}</p>
       <p><a href="${exam.link}" target="_blank" rel="noopener noreferrer">查看官网</a></p>
     `;
     return details;
 }
 
 function getTitleEle(exam) {
-    const status = getStatus(exam.signUpStart, exam.signUpEnd);
+    const status = getStatus(exam);
     const title = document.createElement('div');
     title.className = 'timeline-title';
 
     title.textContent = exam.name;
 
-    if (status.class === 'status-ongoing') {
+    if (status.class === 'status-signup-ongoing') {
         title.textContent = exam.name + '（报名中）';
     }
-    if (status.class === 'status-ended') {
-        title.textContent = exam.name + '（已结束）';
+    if (status.class === 'status-test-waiting') {
+        title.textContent = exam.name + '（'+ status.text +'）';
     }
+    console.log(status.class);
     return title;
 }
 
